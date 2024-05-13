@@ -8,5 +8,5 @@ class Componentes(models.Model):
     #updated = models.DateTimeField(auto_now=True) salva quando foi updateado
     #created = models.DateTimeField(auto_now_add=True) salva quando foi criado
     
-    def ___str___(self):
-        return self.name
+    def __str__(self):
+        return self.nome

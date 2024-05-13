@@ -7,9 +7,9 @@
 
 <div>
     <div>
-        {% for room in rooms %}
+        {% for room in componentes %}
             <div>
-                <h5>{{room.id}} -- <a href="{% url 'tabela' room.id %}">{{room.name}}</a></h5>
+                <h5>{{room.id}} -- <a href="{% url 'tabela' room.id %}">{{room.nome}}</a></h5>
             </div>
 
         {% endfor %}
