@@ -7,9 +7,12 @@
 
 <div>
     <div>
-        {% for room in componentes %}
+        {% for room in rooms %}
             <div>
-                <h5>{{room.id}} -- <a href="{% url 'tabela' room.id %}">{{room.nome}}</a></h5>
+                <span style="color:blue">@{{room.host.username}}</span>
+                <h5>{{room.id}} -- <a href="{% url 'room' room.id %}">{{room.nome}}</a></h5>
+                <small>{{room.topic.nome}}</small>
+                <hr>
             </div>
 
         {% endfor %}
