@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from .models import Componentes
-from .models import Rooms
+from .models import Rooms, Topic
 from .forms import RoomForm
+from django.db.models import Q
 # Create your views here.
 
 
@@ -9,8 +10,15 @@ from .forms import RoomForm
 
 
 def home(request):
-    rooms = Rooms.objects.all()
-    context = {'rooms': rooms}
+    q = request.GET.get('q') if request.GET.get('q') != None else ''
+    rooms = Rooms.objects.filter(
+        Q(topic__nome__icontains=q) |
+        Q(nome__icontains=q) |
+        Q(descricao__icontains=q)
+        )
+    room_count = rooms.count()
+    topics = Topic.objects.all()
+    context = {'rooms': rooms, 'topics':topics, 'room_count':room_count}
     return render(request, 'base/home.html', context)
 
 def tabela(request, pk):
@@ -46,3 +54,10 @@ def updateRoom(request, pk):
 
     context={'form': form}
     return render(request, 'base/room_form.html', context)
+
+def deleteRoom(request, pk):
+    room = Rooms.objects.get(id=pk)
+    if request.method == 'POST':
+        room.delete()
+        return redirect('home')
+    return render(request, 'base/delete.html', {'obj':room})
